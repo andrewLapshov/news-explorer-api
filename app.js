@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
+const cors = require('cors');
 const { errors } = require('celebrate');
 
 const { PORT, MONGO_IP } = require('./constants/config');
@@ -28,6 +29,7 @@ mongoose.connect(MONGO_IP, {
   useFindAndModify: false,
 });
 
+app.use(cors());
 app.use(limiter);
 app.use(requestLogger);
 
