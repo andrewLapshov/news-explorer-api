@@ -8,4 +8,8 @@ module.exports = {
   MONGO_IP: isProductionMode
     ? process.env.MONGO_IP
     : 'mongodb://localhost:27017/newsexplorerdb',
+  ALLOWED_ORIGINS: [
+    'http://localhost:3000',
+    'https://andrewlapshov.github.io/news-explorer-frontend',
+  ],
 };
