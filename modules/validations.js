@@ -28,11 +28,11 @@ const loginRequestCheck = celebrate({
 });
 
 const authRequestCheck = celebrate({
-  cookies: Joi.object()
+  headers: Joi.object()
     .keys({
-      jwt: Joi.string().required(),
+      authorization: Joi.string().required(),
     })
-    .unknown(),
+    .unknown(true),
 });
 
 const articleRequestCheck = celebrate({
