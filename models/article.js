@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
 const validate = require('mongoose-validator');
 
+const { WRONG_URL } = require('../constants/errors');
+
 const urlValidator = [
   validate({
     validator: 'isURL',
-    message: 'Неверный формат ссылки',
+    message: WRONG_URL,
   }),
 ];
 

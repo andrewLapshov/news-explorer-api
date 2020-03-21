@@ -2,32 +2,13 @@ const jwt = require('jsonwebtoken');
 
 const { JWT_SECRET } = require('../constants/config');
 const LoginFailedError = require('../errors/LoginFailedError');
-
-// module.exports.auth = (req, res, next) => {
-//   const { jwt: token } = req.cookies;
-
-//   if (!token) {
-//     throw new LoginFailedError('Ошибка авторизации');
-//   }
-
-//   let payload;
-
-//   try {
-//     payload = jwt.verify(token, JWT_SECRET);
-//   } catch (err) {
-//     throw new LoginFailedError('Авторизация не выполнена');
-//   }
-
-//   req.user = payload;
-
-//   next();
-// };
+const { AUTH_REQUIRED, AUTH_FAILED } = require('../constants/errors');
 
 module.exports.auth = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    throw new LoginFailedError('Ошибка авторизации');
+    throw new LoginFailedError(AUTH_FAILED);
   }
 
   const token = authorization.replace('Bearer ', '');
@@ -36,7 +17,7 @@ module.exports.auth = (req, res, next) => {
   try {
     payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
-    throw new LoginFailedError('Авторизация не выполнена');
+    throw new LoginFailedError(AUTH_REQUIRED);
   }
 
   req.user = payload;
