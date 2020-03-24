@@ -1,9 +1,7 @@
 const { celebrate, Joi } = require('celebrate');
-const LoginFailedError = require('../errors/LoginFailedError');
 const BadRequestError = require('../errors/BadRequestError');
 
 const {
-  AUTH_FAILED,
   EMAIL_REQUIRED,
   NAME_REQUIRED,
   PASS_REQUIRED,
@@ -50,16 +48,6 @@ const loginRequestCheck = celebrate({
   }),
 });
 
-const authRequestCheck = celebrate({
-  headers: Joi.object()
-    .keys({
-      authorization: Joi.string()
-        .required()
-        .error(new LoginFailedError(AUTH_FAILED)),
-    })
-    .unknown(true),
-});
-
 const articleRequestCheck = celebrate({
   body: Joi.object().keys({
     keyword: Joi.string()
@@ -99,7 +87,6 @@ const articleIdRequestCheck = celebrate({
 module.exports = {
   signupRequestCheck,
   loginRequestCheck,
-  authRequestCheck,
   articleRequestCheck,
   articleIdRequestCheck,
 };
