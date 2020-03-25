@@ -17,7 +17,9 @@ const getArticles = (req, res, next) => {
 };
 
 const createArticle = (req, res, next) => {
-  const { keyword, title, text, date, source, link, image } = req.body;
+  const {
+    keyword, title, text, date, source, link, image,
+  } = req.body;
   const owner = req.user._id;
 
   Article.create({
