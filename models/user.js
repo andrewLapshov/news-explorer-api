@@ -5,10 +5,16 @@ const bcrypt = require('bcryptjs');
 
 const LoginFailedError = require('../errors/LoginFailedError');
 
+const {
+  EMAIL_ALREADY_USED,
+  WRONG_EMAIL,
+  WRONG_EMAIL_OR_PASSWORD,
+} = require('../constants/errors');
+
 const emailValidator = [
   validate({
     validator: 'isEmail',
-    message: 'Неверный формат почты',
+    message: WRONG_EMAIL,
   }),
 ];
 
@@ -34,23 +40,19 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.plugin(uniqueValidator);
+userSchema.plugin(uniqueValidator, { message: EMAIL_ALREADY_USED });
 
-userSchema.statics.findUserByCredentials = function(email, password) {
+userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email })
     .select('+password')
-    .then(user => {
+    .then((user) => {
       if (!user) {
-        return Promise.reject(
-          new LoginFailedError('Неправильные почта или пароль'),
-        );
+        return Promise.reject(new LoginFailedError(WRONG_EMAIL_OR_PASSWORD));
       }
 
-      return bcrypt.compare(password, user.password).then(matched => {
+      return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
-          return Promise.reject(
-            new LoginFailedError('Неправильные почта или пароль'),
-          );
+          return Promise.reject(new LoginFailedError(WRONG_EMAIL_OR_PASSWORD));
         }
 
         return user;
