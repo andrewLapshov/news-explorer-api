@@ -11,8 +11,8 @@ const createUser = (req, res, next) => {
 
   bcrypt
     .hash(password, 10)
-    .then(hash => User.create({ email, name, password: hash }))
-    .then(user => {
+    .then((hash) => User.create({ email, name, password: hash }))
+    .then((user) => {
       const { password: pass, ...newUser } = user._doc;
       res.status(201).send(newUser);
     })
@@ -23,7 +23,7 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
-    .then(user => {
+    .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: '7d',
       });
@@ -37,7 +37,7 @@ const getUserInfo = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError(USER_NOT_FOUND);
     })
-    .then(user => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send({ data: user }))
     .catch(next);
 };
 

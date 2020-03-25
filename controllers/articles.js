@@ -12,7 +12,7 @@ const getArticles = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError(ARTICLES_NOT_FOUND);
     })
-    .then(articles => res.status(200).send({ data: articles }))
+    .then((articles) => res.status(200).send({ data: articles }))
     .catch(next);
 };
 
@@ -20,8 +20,17 @@ const createArticle = (req, res, next) => {
   const { keyword, title, text, date, source, link, image } = req.body;
   const owner = req.user._id;
 
-  Article.create({ keyword, title, text, date, source, link, image, owner })
-    .then(article => res.status(201).send({ data: article }))
+  Article.create({
+    keyword,
+    title,
+    text,
+    date,
+    source,
+    link,
+    image,
+    owner,
+  })
+    .then((article) => res.status(201).send({ data: article }))
     .catch(next);
 };
 
@@ -33,12 +42,12 @@ const deleteArticle = (req, res, next) => {
     .orFail(() => {
       throw new NotFoundError(ARTICLE_NOT_FOUND);
     })
-    .then(articleInfo => {
+    .then((articleInfo) => {
       if (!articleInfo.owner.equals(req.user._id)) {
         throw new NoPermissions(NO_PERMISSIONS);
       }
       Article.findByIdAndRemove(articleId)
-        .then(article => res.status(200).send({ data: article }))
+        .then((article) => res.status(200).send({ data: article }))
         .catch(next);
     })
     .catch(next);

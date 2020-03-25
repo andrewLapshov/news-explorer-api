@@ -50,29 +50,13 @@ const loginRequestCheck = celebrate({
 
 const articleRequestCheck = celebrate({
   body: Joi.object().keys({
-    keyword: Joi.string()
-      .required()
-      .error(new BadRequestError(NO_KEYWORD)),
-    title: Joi.string()
-      .required()
-      .error(new BadRequestError(NO_TITLE)),
-    text: Joi.string()
-      .required()
-      .error(new BadRequestError(NO_TEXT)),
-    date: Joi.string()
-      .required()
-      .error(new BadRequestError(NO_DATE)),
-    source: Joi.string()
-      .required()
-      .error(new BadRequestError(NO_SOURCE)),
-    link: Joi.string()
-      .required()
-      .uri()
-      .error(new BadRequestError(NO_LINK)),
-    image: Joi.string()
-      .required()
-      .uri()
-      .error(new BadRequestError(NO_IMAGE)),
+    keyword: Joi.string().required().error(new BadRequestError(NO_KEYWORD)),
+    title: Joi.string().required().error(new BadRequestError(NO_TITLE)),
+    text: Joi.string().required().error(new BadRequestError(NO_TEXT)),
+    date: Joi.string().required().error(new BadRequestError(NO_DATE)),
+    source: Joi.string().required().error(new BadRequestError(NO_SOURCE)),
+    link: Joi.string().required().uri().error(new BadRequestError(NO_LINK)),
+    image: Joi.string().required().uri().error(new BadRequestError(NO_IMAGE)),
   }),
 });
 
